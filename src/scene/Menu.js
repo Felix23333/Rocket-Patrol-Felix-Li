@@ -18,6 +18,7 @@ class Menu extends Phaser.Scene
         this.add.text(20, 20,  "'A' - Left Move     'D' - Right Move").setOrigin(-0.4, -15);
         this.add.text(20, 20, "'K' - Shoot").setOrigin(-2.3, -18);
         this.add.text(50, 50, "Click 'Enter' to play!").setOrigin(-0.8, -22);
+        
 
         //Handle Scene Transition
         this.input.keyboard.on('keydown-ENTER', this.BeginPlay, this);
