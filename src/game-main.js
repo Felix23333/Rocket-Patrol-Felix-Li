@@ -10,4 +10,4 @@ let game = new Phaser.Game(config);
 let borderUIsize = game.config.height / 15;
 let borderPadding = borderUIsize / 3;
 
-let leftMove, rightMove, fireKey, restartKey;
+let leftMove, rightMove, fireKey, restartKey, menuKey;
