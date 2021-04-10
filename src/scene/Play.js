@@ -9,6 +9,8 @@ class Play extends Phaser.Scene
         this.load.image("starfield", "assets/starfield.png");
         this.load.image("rocket", "assets/rocket.png");
         this.load.image("ship", "assets/spaceship.png")
+        this.load.spritesheet("explosion", "assets/explosion.png",
+        {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
 
     create()
@@ -40,6 +42,13 @@ class Play extends Phaser.Scene
         rightMove = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         fireKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
         restartKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
+        //animation
+        this.anims.create({
+            key: "explode", 
+            frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
+            frameRate : 30
+        });
     }
 
     
@@ -65,9 +74,20 @@ class Play extends Phaser.Scene
             && rocket.x <= ship.x + ship.width
             && rocket.y <= ship.y + ship.height)
         {
-            ship.alpha = 0;
-            ship.reset();
+            this.shipExplosion(ship);
             rocket.reset();
         }
+    }
+
+    shipExplosion(ship)
+    {
+        ship.alpha = 0;
+        let boom = this.add.sprite(ship.x - ship.width, 
+                    ship.y - ship.height * 0.5, 'explosion').setOrigin(0, 0);
+        boom.anims.play("explode");
+        boom.on('animationcomplete', () => {    // callback after anim completes
+            ship.reset();                         // reset ship position    
+            boom.destroy();                       // remove explosion sprite
+        });       
     }
 }
